@@ -7,6 +7,7 @@ export type Realizacja = {
   description: string | null;
   content: string | null;
   images: string[] | null;
+  videos: string[] | null;
   created_at: string;
   published: boolean;
   order_index: number;

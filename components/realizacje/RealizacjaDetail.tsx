@@ -1,13 +1,17 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import type { Realizacja } from "@/lib/supabase/types";
 
 export default function RealizacjaDetail({ realizacja }: { realizacja: Realizacja }) {
   const images = realizacja.images ?? [];
+  const videos = realizacja.videos ?? [];
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [lightboxLoading, setLightboxLoading] = useState(false);
+  const isFirstRender = useRef(true);
 
   const prev = useCallback(() => {
     setSelectedIndex((i) => (i - 1 + images.length) % images.length);
@@ -16,6 +20,16 @@ export default function RealizacjaDetail({ realizacja }: { realizacja: Realizacj
   const next = useCallback(() => {
     setSelectedIndex((i) => (i + 1) % images.length);
   }, [images.length]);
+
+  // Ustaw loading przy każdej zmianie zdjęcia (pomijamy pierwsze renderowanie)
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    setImageLoading(true);
+    setLightboxLoading(true);
+  }, [selectedIndex]);
 
   useEffect(() => {
     if (!lightboxOpen) return;
@@ -44,10 +58,26 @@ export default function RealizacjaDetail({ realizacja }: { realizacja: Realizacj
         </p>
       )}
 
+      {/* Videos */}
+      {videos.length > 0 && (
+        <div className="mb-8 space-y-4">
+          {videos.map((url, i) => (
+            <video
+              key={i}
+              src={url}
+              controls
+              playsInline
+              className="w-full rounded-xl bg-black"
+              preload="metadata"
+            />
+          ))}
+        </div>
+      )}
+
       {/* Gallery */}
       {images.length > 0 && (
         <div className="mb-8">
-          {/* Main image — klikalny */}
+          {/* Main image */}
           <div
             className="relative aspect-[16/9] rounded-xl overflow-hidden bg-gray-100 mb-3 cursor-zoom-in group"
             onClick={() => setLightboxOpen(true)}
@@ -59,7 +89,21 @@ export default function RealizacjaDetail({ realizacja }: { realizacja: Realizacj
               className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
               sizes="(max-width: 1024px) 100vw, 896px"
               priority
+              onLoad={() => setImageLoading(false)}
             />
+
+            {/* Loader overlay */}
+            <div
+              className={`absolute inset-0 bg-gray-100 flex items-center justify-center transition-opacity duration-200 ${
+                imageLoading ? "opacity-100" : "opacity-0 pointer-events-none"
+              }`}
+            >
+              <svg className="w-8 h-8 text-[#D4AF37] animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+              </svg>
+            </div>
+
             {/* Overlay hint */}
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
               <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5">
@@ -69,6 +113,7 @@ export default function RealizacjaDetail({ realizacja }: { realizacja: Realizacj
                 Powiększ
               </div>
             </div>
+
             {/* Counter */}
             {images.length > 1 && (
               <div className="absolute bottom-3 right-3 bg-black/50 text-white text-xs px-2.5 py-1 rounded-full">
@@ -135,7 +180,7 @@ export default function RealizacjaDetail({ realizacja }: { realizacja: Realizacj
           {/* Prev */}
           {images.length > 1 && (
             <button
-              className="absolute left-3 sm:left-6 text-white/70 hover:text-white p-2 transition-colors"
+              className="absolute left-3 sm:left-6 text-white/70 hover:text-white p-2 transition-colors z-10"
               onClick={(e) => { e.stopPropagation(); prev(); }}
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,7 +189,7 @@ export default function RealizacjaDetail({ realizacja }: { realizacja: Realizacj
             </button>
           )}
 
-          {/* Image */}
+          {/* Image + lightbox loader */}
           <div
             className="relative w-full h-full max-w-5xl max-h-[85vh] mx-16"
             onClick={(e) => e.stopPropagation()}
@@ -155,13 +200,24 @@ export default function RealizacjaDetail({ realizacja }: { realizacja: Realizacj
               fill
               className="object-contain"
               sizes="100vw"
+              onLoad={() => setLightboxLoading(false)}
             />
+
+            {/* Lightbox loader */}
+            {lightboxLoading && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <svg className="w-10 h-10 text-[#D4AF37] animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                </svg>
+              </div>
+            )}
           </div>
 
           {/* Next */}
           {images.length > 1 && (
             <button
-              className="absolute right-3 sm:right-6 text-white/70 hover:text-white p-2 transition-colors"
+              className="absolute right-3 sm:right-6 text-white/70 hover:text-white p-2 transition-colors z-10"
               onClick={(e) => { e.stopPropagation(); next(); }}
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

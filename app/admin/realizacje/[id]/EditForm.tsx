@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import ImageUploader from "@/components/admin/ImageUploader";
+import VideoUploader from "@/components/admin/VideoUploader";
 import type { Realizacja } from "@/lib/supabase/types";
 
 function slugify(text: string) {
@@ -23,6 +24,7 @@ export default function EditForm({ realizacja }: { realizacja: Realizacja }) {
   const [description, setDescription] = useState(realizacja.description ?? "");
   const [content, setContent] = useState(realizacja.content ?? "");
   const [images, setImages] = useState<string[]>(realizacja.images ?? []);
+  const [videos, setVideos] = useState<string[]>(realizacja.videos ?? []);
   const [published, setPublished] = useState(realizacja.published);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -51,6 +53,7 @@ export default function EditForm({ realizacja }: { realizacja: Realizacja }) {
         description: description || null,
         content: content || null,
         images,
+        videos,
         published,
       })
       .eq("id", realizacja.id);
@@ -178,6 +181,15 @@ export default function EditForm({ realizacja }: { realizacja: Realizacja }) {
             Zdjęcia ({images.length})
           </h2>
           <ImageUploader images={images} onChange={setImages} />
+        </div>
+
+        {/* Videos */}
+        <div className="bg-white rounded-xl border border-gray-100 p-6">
+          <h2 className="text-sm font-medium text-gray-700 mb-1">
+            Filmy ({videos.length})
+          </h2>
+          <p className="text-xs text-gray-400 mb-4">MP4, MOV, WebM — max kilkadziesiąt MB</p>
+          <VideoUploader videos={videos} onChange={setVideos} />
         </div>
 
         {/* Publish + submit */}

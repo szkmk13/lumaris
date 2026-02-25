@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import ImageUploader from "@/components/admin/ImageUploader";
+import VideoUploader from "@/components/admin/VideoUploader";
 
 function slugify(text: string) {
   return text
@@ -22,6 +23,7 @@ export default function NowaRealizacjaPage() {
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState<string[]>([]);
+  const [videos, setVideos] = useState<string[]>([]);
   const [published, setPublished] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -49,6 +51,7 @@ export default function NowaRealizacjaPage() {
       description: description || null,
       content: content || null,
       images,
+      videos,
       published,
       order_index: 0,
     });
@@ -145,6 +148,13 @@ export default function NowaRealizacjaPage() {
         <div className="bg-white rounded-xl border border-gray-100 p-6">
           <h2 className="text-sm font-medium text-gray-700 mb-4">Zdjęcia</h2>
           <ImageUploader images={images} onChange={setImages} />
+        </div>
+
+        {/* Videos */}
+        <div className="bg-white rounded-xl border border-gray-100 p-6">
+          <h2 className="text-sm font-medium text-gray-700 mb-1">Filmy</h2>
+          <p className="text-xs text-gray-400 mb-4">MP4, MOV, WebM — max kilkadziesiąt MB</p>
+          <VideoUploader videos={videos} onChange={setVideos} />
         </div>
 
         {/* Publish + submit */}

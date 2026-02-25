@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -32,9 +33,16 @@ export default function AdminLoginPage() {
   return (
     <div className="fixed inset-0 bg-[#1C1C1C] flex items-center justify-center px-4 z-50">
       <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <span className="text-3xl font-bold text-[#D4AF37] tracking-wider">LUMARIS</span>
-          <p className="text-gray-400 mt-2 text-sm">Panel administracyjny</p>
+        <div className="flex flex-col items-center mb-8">
+          <Image
+            src="/lumaris_no_bg.png"
+            alt="Lumaris — Jakub Lisiecki"
+            width={200}
+            height={52}
+            className="object-contain"
+            priority
+          />
+          <p className="text-gray-400 mt-1 text-sm">Panel administracyjny</p>
         </div>
 
         <form

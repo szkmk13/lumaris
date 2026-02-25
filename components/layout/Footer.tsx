@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -7,7 +8,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div>
-            <span className="text-2xl font-bold text-[#D4AF37] tracking-wider">LUMARIS</span>
+            <Image
+              src="/lumaris_no_bg.png"
+              alt="Lumaris — Jakub Lisiecki"
+              width={160}
+              height={42}
+              className="object-contain"
+            />
             <p className="mt-3 text-sm leading-relaxed">
               Profesjonalne usługi elektryczne, instalacje smart home i oświetlenie ogrodowe.
               Realizujemy projekty z pasją i precyzją.

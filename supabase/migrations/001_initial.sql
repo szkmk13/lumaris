@@ -40,3 +40,25 @@ CREATE POLICY "Service role full access"
   CREATE POLICY "Anon delete images"
     ON storage.objects FOR DELETE
     USING (bucket_id = 'realizacje-images');
+ALTER TABLE realizacje
+ADD COLUMN IF NOT EXISTS videos text[] DEFAULT NULL;                                                                          
+
+-- 2. Utwórz bucket na filmy                                                                                                    
+INSERT INTO storage.buckets (id, name, public)                                                                                
+VALUES ('realizacje-videos', 'realizacje-videos', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- 3. Polityka odczytu — wszyscy mogą oglądać filmy
+CREATE POLICY "Public read realizacje-videos"
+ON storage.objects FOR SELECT
+USING (bucket_id = 'realizacje-videos');
+
+-- 4. Polityka uploadu — wszyscy zalogowani mogą wgrywać
+CREATE POLICY "Authenticated upload realizacje-videos"
+ON storage.objects FOR INSERT
+WITH CHECK (bucket_id = 'realizacje-videos');
+
+-- 5. Polityka usuwania — wszyscy zalogowani mogą usuwać
+CREATE POLICY "Authenticated delete realizacje-videos"
+ON storage.objects FOR DELETE
+USING (bucket_id = 'realizacje-videos');

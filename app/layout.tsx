@@ -14,6 +14,10 @@ export const metadata: Metadata = {
   description:
     "Lumaris — profesjonalne usługi elektryczne, instalacje smart home i oświetlenie ogrodowe. Realizujemy projekty z pasją i precyzją.",
   keywords: ["elektryka", "smart home", "oświetlenie ogrodowe", "instalacje elektryczne"],
+  icons: {
+    icon: "/lumaris_logo.png",
+    apple: "/lumaris_logo.png",
+  },
 };
 
 export default function RootLayout({
