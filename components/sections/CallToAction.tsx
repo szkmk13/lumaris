@@ -24,6 +24,12 @@ export default function CallToAction() {
           >
             Zadzwoń: +48 500 000 000
           </a>
+          <Link
+            href="/realizacje"
+            className="border-2 border-[#1C1C1C] text-[#1C1C1C] px-8 py-4 rounded font-semibold text-base hover:bg-[#1C1C1C]/10 transition-colors duration-200"
+          >
+            Zobacz realizacje
+          </Link>
         </div>
       </div>
     </section>

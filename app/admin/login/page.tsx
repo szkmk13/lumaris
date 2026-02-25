@@ -30,7 +30,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#1C1C1C] flex items-center justify-center px-4">
+    <div className="fixed inset-0 bg-[#1C1C1C] flex items-center justify-center px-4 z-50">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <span className="text-3xl font-bold text-[#D4AF37] tracking-wider">LUMARIS</span>

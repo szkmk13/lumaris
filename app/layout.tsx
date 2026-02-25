@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+
+const inter = Inter({
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Lumaris — Elektryka, Smart Home, Oświetlenie ogrodowe",
@@ -17,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl">
-      <body className="antialiased">
+      <body className={`${inter.className} antialiased`}>
         <Navbar />
         <main>{children}</main>
         <Footer />

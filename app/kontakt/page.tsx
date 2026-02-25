@@ -37,8 +37,8 @@ export default function KontaktPage() {
                   </div>
                   <div>
                     <p className="text-xs text-gray-400 mb-0.5">Email</p>
-                    <a href="mailto:kontakt@lumaris.pl" className="text-[#1C1C1C] font-medium hover:text-[#D4AF37] transition-colors">
-                      kontakt@lumaris.pl
+                    <a href="mailto:biuro.lumaris@gmail.com" className="text-[#1C1C1C] font-medium hover:text-[#D4AF37] transition-colors">
+                      biuro.lumaris@gmail.com
                     </a>
                   </div>
                 </div>

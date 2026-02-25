@@ -109,7 +109,7 @@ export default function ContactForm() {
       )}
       {status === "error" && (
         <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-          Wystąpił błąd. Spróbuj ponownie lub napisz bezpośrednio na kontakt@lumaris.pl
+          Wystąpił błąd. Spróbuj ponownie lub napisz bezpośrednio na biuro.lumaris@gmail.com
         </div>
       )}
 

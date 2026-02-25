@@ -23,10 +23,11 @@ const services = [
     ),
     title: "Smart Home",
     description:
-      "Inteligentne systemy zarządzania domem. Automatyzacja oświetlenia, ogrzewania, rolet i bezpieczeństwa — wszystko z jednej aplikacji.",
+      "Inteligentne systemy zarządzania domem oparte na sprawdzonej marce Grenton. Automatyzacja oświetlenia, ogrzewania, rolet i bezpieczeństwa — wszystko z jednej aplikacji.",
+    badge: "Grenton",
     features: [
-      "Systemy zarządzania oświetleniem",
-      "Automatyzacja rolet i żaluzji",
+      "Certyfikowane systemy Grenton",
+      "Zarządzanie oświetleniem i roletami",
       "Inteligentne ogrzewanie",
       "Integracja z asystentami głosowymi",
     ],
@@ -39,7 +40,8 @@ const services = [
     ),
     title: "Oświetlenie ogrodowe",
     description:
-      "Profesjonalne instalacje oświetleniowe do ogrodów. Tworzymy niepowtarzalne efekty świetlne, które podkreślają piękno Twojej przestrzeni.",
+      "Profesjonalne instalacje oświetleniowe do ogrodów realizowane własnym sprzętem. Tworzymy niepowtarzalne efekty świetlne, które podkreślają piękno Twojej przestrzeni.",
+    badge: "Własny sprzęt",
     features: [
       "Oświetlenie ścieżek i alejek",
       "Podświetlenie roślin i drzew",
@@ -51,7 +53,7 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="uslugi" className="py-20 lg:py-28 bg-[#1C1C1C]">
+    <section id="uslugi" className="py-24 lg:py-32 bg-[#1C1C1C]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <p className="text-[#D4AF37] text-sm font-medium tracking-[0.3em] uppercase mb-4">
@@ -65,17 +67,24 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {services.map((service, i) => (
             <div
               key={i}
-              className="bg-[#242424] rounded-xl p-8 border border-[#D4AF37]/10 hover:border-[#D4AF37]/40 transition-all duration-300 group"
+              className="bg-[#242424] rounded-2xl p-8 border border-[#D4AF37]/10 hover:border-[#D4AF37]/40 transition-all duration-300 group flex flex-col"
             >
-              <div className="text-[#D4AF37] mb-6 group-hover:scale-110 transition-transform duration-300">
-                {service.icon}
+              <div className="flex items-start justify-between mb-6">
+                <div className="text-[#D4AF37] group-hover:scale-110 transition-transform duration-300">
+                  {service.icon}
+                </div>
+                {service.badge && (
+                  <span className="text-xs font-semibold text-[#D4AF37] border border-[#D4AF37]/40 rounded-full px-3 py-1 tracking-wide">
+                    {service.badge}
+                  </span>
+                )}
               </div>
               <h3 className="text-xl font-bold text-white mb-3">{service.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+              <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-1">
                 {service.description}
               </p>
               <ul className="space-y-2">

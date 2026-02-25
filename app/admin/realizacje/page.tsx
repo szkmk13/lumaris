@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
+import Image from "next/image";
 import PublishToggle from "./PublishToggle";
 import type { Realizacja } from "@/lib/supabase/types";
 
@@ -65,10 +66,31 @@ export default async function AdminRealizacjePage() {
               {realizacje.map((r) => (
                 <tr key={r.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-5 py-4">
-                    <p className="font-medium text-[#1C1C1C] text-sm">{r.title}</p>
-                    {r.description && (
-                      <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">{r.description}</p>
-                    )}
+                    <div className="flex items-center gap-3">
+                      <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+                        {r.images?.[0] ? (
+                          <Image
+                            src={r.images[0]}
+                            alt={r.title}
+                            fill
+                            className="object-cover"
+                            sizes="48px"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <svg className="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-medium text-[#1C1C1C] text-sm">{r.title}</p>
+                        {r.description && (
+                          <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">{r.description}</p>
+                        )}
+                      </div>
+                    </div>
                   </td>
                   <td className="px-5 py-4 hidden sm:table-cell">
                     <code className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded">
@@ -79,13 +101,19 @@ export default async function AdminRealizacjePage() {
                     <PublishToggle id={r.id} published={r.published} />
                   </td>
                   <td className="px-5 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
+                    <div className="flex items-center justify-end gap-3">
                       <Link
                         href={`/realizacje/${r.slug}`}
                         target="_blank"
                         className="text-xs text-gray-400 hover:text-[#D4AF37] transition-colors"
                       >
                         Podgląd
+                      </Link>
+                      <Link
+                        href={`/admin/realizacje/${r.id}`}
+                        className="text-xs font-medium text-[#D4AF37] hover:text-[#c49b2e] transition-colors"
+                      >
+                        Edytuj
                       </Link>
                     </div>
                   </td>
